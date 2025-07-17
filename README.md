@@ -1,9 +1,7 @@
 # suiyue-crypto
 随曰(yuē)：开源文本加解密工具 - 随心、随意、随时、随地、随曰。
 
-
 ![随曰(yuē)示例图片](images/SuiYue_GUI.jpg "随曰(yuē)界面图")
-
 
 # 随曰文本加解密工具
 
@@ -34,14 +32,33 @@ suiyue-crypto/                  # 随曰项目根目录
 
 |--LICENSE                      # 随曰版权声明
 
-|--favicon.ico                  # 随曰GUI图标
-
 |--images/                      # 随曰图片
+
 
 
 ## 密文示例 (全是水 ^_^ 辨识度应该很高。那个有我水多 O(∩_∩)O~ )
 ```
 湋渄漋泽汈溿溿涷泳漙灡漑汁洉漛汮渔汽潇滍浡汤灡涬湚灡澻泳滍潸渄涃汽涷湚滍淳瀫湔濗汷汥汈灡瀹洁溢汷汤潸灡濗涔汦灡泳泑泄濗濔涃淋滵湋滍涔漋瀫汷汽漛濗濗瀹瀹涫溃淳濈灡漛瀹漑湂泑洧灡洉沽泑濈濐瀹湚涫潇洦潬沚沚
+```
+
+##  suiyue(随曰) python库已上传PyPI，可以直接使用，suiyue库使用说明
+
+### 安装suiyue库
+```
+pip install suiyue
+```
+
+### 使用suiyue库
+```python
+from suiyue import suiyue_encode, suiyue_decode
+plaintext = "随心、随意、随时、随地。"
+password = "随曰"
+
+ciphertext = suiyue_encode(plaintext, password)
+print("加密结果:", ciphertext)
+
+decrypted_text = suiyue_decode(ciphertext, password)
+print("解密结果:", decrypted_text)
 ```
 
 ## 版权信息
