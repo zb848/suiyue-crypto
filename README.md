@@ -28,8 +28,6 @@ suiyue-crypto/                  # 随曰项目根目录
 
 |--SuiYue_GUI.py                # 随曰GUI界面代码
 
-|--favicon.ico.py               # 随曰SuiYue_GUI图标
-
 |--README.md                    # 随曰说明
 
 |--LICENSE                      # 随曰版权声明

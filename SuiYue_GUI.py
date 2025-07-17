@@ -13,10 +13,17 @@ pyinstaller --clean --name=SuiYue_GUI -F -w -i favicon.ico SuiYue_GUI.py
 
 import tkinter as tk
 from tkinter import scrolledtext, messagebox
-from SuiYue import suiyue_decode, suiyue_encode
 import random
 import string
 import webbrowser
+from PIL import Image, ImageTk
+import base64
+import io
+
+from SuiYue import suiyue_decode, suiyue_encode
+
+
+ico_png_base64="iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAt1JREFUOE9tk09oXFUUxn/fe+++GrMx1Ng0nTdYm3FmCIoRUUEpBYWCgq4s/gktIi0u3AgiFfyLIBapuhDBClWsFXFhBbvKQqloKVrowpbMNKXBmSQw0SIxVjvvvveOvMFIKz2bcznn3u+e833nCGC2Et9S+uZC+rOBayfxK2D3mGhirJc0gxXHhWbqXf9TeXfNNABIou2RcSmXLsqYCgIdr3XSM2VubtxNZaFeFPYwUmhmb4+k/uWxHhfL/ACgtFY13qEs/aa+xG+X/7B2/qXKyN8WP4t4CewHt+of3PI7KwOAs0m0tfQ3d7PvyhYEfu1hu+LurC/4Hw2Ccwmbc7nXQE+AHW50/LROQxxW3ZPNjv+glcSvI6bNSEOK3Wk3OxFV48My+9NQ14riWgXaiPS4YX6d9zWdqzCREd/dWEg/nU3cMYkjmLaVpJk0KbHD0L6yoijPenkQ3gvahhi3gjfVStxByQ7WO9n3s0n8pWT3Yyxg9pEp2INsBXRUsJN+eh8hsYXugKSthp0qAZYNm252s5lW1R0CThrsCrAvKLK2ye018YeM2xpdP1pW0q66XYY+xlhUqxrPh7k9Vlv0J2YT95kgiVf9dDocPUU/O2lD7hngAtKtzU46OZB2jNE8jpcNjqq9ye2pL/oDAymT+IjydLf7i+H+UNRQqIrBENhpFLzQ7Kbb11QrFBwD3ipbuGPY/PlLYiTHvRFm7MscH2KsDqQUDZlyRN/gE8yuB/ta0udC72p+lLEbf6XXTtypsCj21xbzkocrbG6juz2LeE7SXaG3R/KI5wX7CzShOVjnk7gWyPYaPIDZoyWhV5vGdoVNFrhXw4z3+0v+zCQUg0lsbWBzo8d8K3HvgG4ybIvQVyqKbwuRB9hIofBpYVNhwUMl4Vcs00CacRqB3HX/qvFegFaguADBkop8NQ/UcGl2aKLH8uXV/bdMZfD8DWzIr4nXT3TSs4Lsam38P/YPOjBBY1/JRfwAAAAASUVORK5CYII="
 
 def encrypt_text():
     plaintext = text_input.get("1.0", tk.END).strip()
@@ -72,10 +79,13 @@ root.title("随曰：开源文本加解密工具 - 随心、随意、随时、�
 root.geometry("800x600")
 root.minsize(800, 400)  # 最小尺寸
 # 设置窗口图标
-try:
-    root.iconbitmap('favicon.ico')
-except tk.TclError:
-    print("未能加载图标文件，请确保 'favicon.ico' 文件存在于当前工作目录中。")
+# 将 Base64 数据解码为图像
+ico_png_data = base64.b64decode(ico_png_base64)
+ico_image = Image.open(io.BytesIO(ico_png_data))
+# 将图像转换为 Tkinter 可用的 PhotoImage
+photo = ImageTk.PhotoImage(ico_image)
+# 设置窗口图标
+root.iconphoto(False, photo)
 
 root.configure(bg="#f0f0f0")
 
@@ -152,19 +162,25 @@ copy_button.pack(side=tk.LEFT, padx=10, expand=True)
 end_frame = tk.Frame(root, bg="#f0f0f0")
 end_frame.grid(row=3, column=0, columnspan=3, padx=2, pady=2, sticky="ew")
 
-# 设置 end_frame 列权重，让第 0 列和第 1 列自适应大小
-end_frame.columnconfigure(0, weight=1)
+# 设置 end_frame 列权重，让第 1 列自适应大小
+end_frame.columnconfigure(0, weight=0)
 end_frame.columnconfigure(1, weight=1)
+end_frame.columnconfigure(2, weight=0)  # 第 2 列权重为 0，不会自动扩展
 
+# 创建一个标签显示图标
+img_label = tk.Label(end_frame, image=photo)
+# 使用 sticky="w" 让标签靠左
+img_label.grid(row=0, column=0, padx=2, pady=2, sticky="w")
+
+# 创建一个标签显示软件说明
 soft_readme = tk.Label(end_frame, text="随曰(yuē) - 心随性起、意随情生、时随运转、地随缘现、言随风散。", font=font_style2, bg="#f0f0f0")
 # 使用 sticky="w" 让标签靠左
-soft_readme.grid(row=0, column=0,  padx=2, pady=2, sticky="w")
+soft_readme.grid(row=0, column=1, padx=2, pady=2, sticky="w")
 
+# 创建一个标签显示作者信息
 author_readme = tk.Label(end_frame, text="随波逐流作品 © Github", font=font_style2, bg="#f0f0f0")
-# 使用 sticky="e" 让标签靠右，column=1 占据第二列，由于该列权重为 1，会自动扩展
-author_readme.grid(row=0, column=1,  padx=2, pady=2, sticky="e")
-
-author_readme.bind("<Button-1>", lambda event: open_link('https://github.com/zb848/suiyue-crypto'))
+# 使用 sticky="e" 让标签靠右，column=2 占据第二列，由于该列权重为 0，不会自动扩展
+author_readme.grid(row=0, column=2, padx=2, pady=2, sticky="e")
 
 # 创建右键菜单
 def create_context_menu(widget):
