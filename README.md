@@ -30,4 +30,4 @@
 
 
 ## 许可证
-[私下研究专用许可](https://github.com/zb848/suiyue-crypto/blob/main/LICENSE)
+[私下研究专用许可](https://github.com/zb848/suiyue-crypto?tab=License-1-ov-file#)
