@@ -32,6 +32,8 @@ suiyue-crypto/                  # 随曰项目根目录
 
 |--LICENSE                      # 随曰版权声明
 
+|--favicon.ico                  # 随曰GUI图标
+
 |--images/                      # 随曰图片
 
 
