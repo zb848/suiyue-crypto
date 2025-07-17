@@ -159,7 +159,7 @@ author_readme = tk.Label(end_frame, text="随波逐流作品 © Github", font=fo
 # 使用 sticky="e" 让标签靠右，column=1 占据第二列，由于该列权重为 1，会自动扩展
 author_readme.grid(row=0, column=1,  padx=2, pady=2, sticky="e")
 
-author_readme.bind("<Button-1>", lambda event: open_link('https://github.com/'))
+author_readme.bind("<Button-1>", lambda event: open_link('https://github.com/zb848/suiyue-crypto'))
 
 # 创建右键菜单
 def create_context_menu(widget):

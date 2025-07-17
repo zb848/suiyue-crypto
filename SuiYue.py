@@ -7,7 +7,7 @@
 # @Vertime :20250718
 
 '''
-随曰SuiYue:https://github.com/zb848/suiyue
+随曰SuiYue:https://github.com/zb848/suiyue-crypto
 '''
 
 from __future__ import unicode_literals
