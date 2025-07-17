@@ -6,6 +6,9 @@
 ## 项目简介
 "随曰文本加解密工具"是一款基于Python开发的安全加密工具。该工具采用AES和ChaCha20-Poly1305两种高强度加密算法，在保障数据传输安全性的同时，通过Poly1305认证机制确保数据完整性，为用户提供专业级的数据保护解决方案。
 
+
+![随曰(yuē)示例图片](images/SuiYue_GUI.jpg "随曰(yuē)界面图")
+
 ## 项目地址
 [随曰 SuiYue](https://github.com/zb848/suiyue-crypto)  https://github.com/zb848/suiyue-crypto
 
@@ -31,6 +34,8 @@ suiyue-crypto/                  # 随曰项目根目录
 |--README.md                    # 随曰说明
 
 |--LICENSE                      # 随曰版权声明
+
+|--images/                      # 随曰图片
 
 
 ## 密文示例 (全是水 ^_^ 辨识度应该很高)
