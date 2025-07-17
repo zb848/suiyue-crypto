@@ -43,4 +43,4 @@ suiyue-crypto/                  # 随曰项目根目录
 ## 许可证
 [随曰-私下研究专用许可](https://github.com/zb848/suiyue-crypto?tab=License-1-ov-file#)
 
-# 随曰 - 心随性起、意随情生、时随运转、地随缘现、言随风散。
+## 随曰 - 心随性起、意随情生、时随运转、地随缘现、言随风散。
