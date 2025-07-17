@@ -6,6 +6,11 @@
 # @Version :V1.0
 # @Vertime :20250718
 
+'''
+## 打包代码
+pyinstaller --clean --name=SuiYue_GUI -F -w -i favicon.ico SuiYue_GUI.py
+'''
+
 import tkinter as tk
 from tkinter import scrolledtext, messagebox
 from SuiYue import suiyue_decode, suiyue_encode
