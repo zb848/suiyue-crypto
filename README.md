@@ -8,6 +8,9 @@
 
 ![随曰(yuē)HTML示例图片](images/SuiYue_HTML.jpg "随曰(yuē)HTML界面图")
 
+随曰文本加解密工具安卓版
+
+![随曰(yuē)APK示例图片](images/SuiYue_APK.jpg "随曰(yuē)APK图")
 # 随曰文本加解密工具
 
 ## 项目简介
