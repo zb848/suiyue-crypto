@@ -4,7 +4,7 @@
 
 ![随曰(yuē)GUI示例图片](images/SuiYue_GUI.jpg "随曰(yuē)GUI界面图")
 
-随曰文本加解密工具网页版测试地址：http://suiyue.67886788.xyz/
+随曰文本加解密工具网页版测试地址：http://suiyue.1o1o.xyz/
 
 ![随曰(yuē)HTML示例图片](images/SuiYue_HTML.jpg "随曰(yuē)HTML界面图")
 
