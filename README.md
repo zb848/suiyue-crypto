@@ -1,6 +1,6 @@
 # suiyue-crypto ：文本加解密工具
 
-# 随曰(yuē) - 随心、随意、随时、随地、随曰。
+# 随曰(yuē) - 随心、随意、随时、随地、随曰
 
 ![随曰(yuē)GUI示例图片](images/SuiYue_GUI.jpg "随曰(yuē)GUI界面图")
 
