@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>随曰文本加解密工具</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                        accent: '#8B5CF6',
+                        dark: '#1E293B',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .transition-all-300 {
+                transition: all 300ms ease-in-out;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <header class="text-center mb-8">
+            <h1 class="text-[clamp(1.8rem,5vw,2.8rem)] font-bold text-dark mb-2">随曰文本加解密工具</h1>
+            <p class="text-gray-600 text-lg">随心、随意、随时、随地、随曰</p>
+            <div class="mt-4 h-1 w-32 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
+        </header>
+
+        <main class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8 transform hover:shadow-xl transition-all-300">
+            <!-- 密码区域 -->
+            <div class="mb-6">
+                <div class="flex flex-wrap gap-2">
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1 w-full">密码 (可选)</label>
+                    <div class="relative flex-grow">
+                        <input type="text" id="password" placeholder="输入加密/解密密码，留空使用默认值" 
+                            class="w-full px-3 py-2 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all-300">
+                        <div class="absolute right-2 top-2 text-gray-400 cursor-pointer" id="togglePassword">
+                            <i class="fa fa-eye-slash"></i>
+                        </div>
+                    </div>
+                    <button id="generatePasswordBtn" class="bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-r-lg font-medium flex items-center gap-2 active:scale-95 transition-all-300 whitespace-nowrap">
+                        <i class="fa fa-random"></i> 随机生成
+                    </button>
+                </div>
+                <p class="text-xs text-gray-500 mt-1 flex items-start">
+                    <i class="fa fa-info-circle mr-1 mt-0.5"></i> 
+                    <span>密码建议：包含大小写字母、数字和特殊符号，长度至少16位；不输入密码将使用默认密码。</span>
+                </p>
+            </div>
+
+            <!-- 输入输出区域 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label for="plaintext" class="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+                        <i class="fa fa-pencil mr-2 text-primary"></i> 文本输入
+                    </label>
+                    <textarea id="plaintext" rows="8" placeholder="请输入要加密或解密的文本..." 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all-300 resize-none"></textarea>
+                </div>
+                
+                <div>
+                    <label for="ciphertext" class="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+                        <i class="fa fa-shield mr-2 text-accent"></i> 结果显示
+                    </label>
+                    <textarea id="ciphertext" rows="8" placeholder="结果将显示在这里..." 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-accent/50 focus:border-accent outline-none transition-all-300 resize-none" readonly></textarea>
+                </div>
+            </div>
+
+            <!-- 操作按钮区域 -->
+            <div class="flex flex-wrap gap-4 justify-between items-center">
+                <div class="flex gap-2">
+                    <button onclick="encryptText()" class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-lg font-medium flex items-center gap-2 active:scale-95 transition-all-300">
+                        <i class="fa fa-lock"></i> 加密
+                    </button>
+                    <button onclick="decryptText()" class="bg-secondary hover:bg-secondary/90 text-white px-6 py-2.5 rounded-lg font-medium flex items-center gap-2 active:scale-95 transition-all-300">
+                        <i class="fa fa-unlock"></i> 解密
+                    </button>
+                </div>
+                
+                <div class="flex flex-wrap gap-3">
+                    <button id="copyBtn" class="bg-gray-700 hover:bg-gray-800 text-white px-5 py-2 rounded-lg font-medium flex items-center gap-2 active:scale-95 transition-all-300">
+                        <i class="fa fa-copy"></i> 复制结果
+                    </button>
+                    <button id="clearBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-5 py-2 rounded-lg font-medium flex items-center gap-2 active:scale-95 transition-all-300">
+                        <i class="fa fa-trash"></i> 清空内容
+                    </button>
+                    <button id="swapBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-5 py-2 rounded-lg font-medium flex items-center gap-2 active:scale-95 transition-all-300">
+                        <i class="fa fa-exchange"></i> 交换内容
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- 信息区域 -->
+        <div class="bg-gray-50 rounded-xl p-6 shadow-md">
+            <h2 class="text-xl font-semibold text-dark mb-3 flex items-center">
+                <i class="fa fa-info-circle text-primary mr-2"></i> 关于工具
+            </h2>
+            <p class="text-gray-600 mb-4">
+                随曰文本加解密工具提供简单高效的文本加密解密功能，保护您的敏感信息安全。
+            </p>
+            <div class="text-sm text-gray-500">
+                <p>© 2025 随波逐流 | 版本: V1.0 | 随曰 SuiYue  | Github项目地址: <a href="https://github.com/zb848/suiyue-crypto" target="_blank" class="text-primary hover:underline">https://github.com/zb848/suiyue-crypto</a></p>
+                <p>© 2025 随波逐流 | 版本: V1.0 | 随曰 SuiYue  | PyPI项目地址: <a href="https://pypi.org/project/suiyue/" target="_blank" class="text-primary hover:underline">https://pypi.org/project/suiyue</a> </p>
+            </div>
+        </div>
+    </div>
+    
+    
+        <!-- 页脚 -->
+    <footer class="text-center text-gray-500 text-sm py-4">
+        <p> 随曰 SuiYue | 心随性起、意随情生、时随运转、地随缘现、言随风散</p>
+    </footer>
+
+    <!-- 通知提示 -->
+    <div id="notification" class="fixed bottom-6 right-6 bg-dark text-white px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 z-50">
+        <i id="notificationIcon" class="fa fa-check-circle"></i>
+        <span id="notificationText">操作成功</span>
+    </div>
+
+    <!-- 错误弹窗 -->
+    <div id="errorModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-4 transform transition-all duration-300 scale-95 opacity-0" id="errorModalContent">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold text-red-600 flex items-center">
+                    <i class="fa fa-exclamation-circle mr-2"></i> 错误
+                </h3>
+                <button onclick="closeErrorModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <p id="errorMessage" class="text-gray-700 mb-6"></p>
+            <div class="text-right">
+                <button onclick="closeErrorModal()" class="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-lg font-medium transition-all-300">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 加密函数
+        async function encryptText() {
+            const plaintext = document.getElementById('plaintext').value.trim();
+            const password = document.getElementById('password').value;
+            const ciphertextElement = document.getElementById('ciphertext');
+            
+            if (!plaintext) {
+                showErrorModal('请输入要加密的文本');
+                return;
+            }
+            
+            try {
+                ciphertextElement.value = '正在加密...';
+                
+                // 创建FormData对象
+                const formData = new FormData();
+                formData.append('text', plaintext);
+                formData.append('password', password);
+                
+                // 发送请求到后端
+                const response = await fetch('/encrypt', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'error') {
+                    throw new Error(data.message);
+                }
+                
+                ciphertextElement.value = data.result;
+                showNotification('加密成功');
+            } catch (error) {
+                ciphertextElement.value = '';
+                showErrorModal('加密失败: ' + error.message);
+                console.error('加密错误:', error);
+            }
+        }
+        
+        // 解密函数
+        async function decryptText() {
+            const ciphertext = document.getElementById('plaintext').value.trim();
+            const password = document.getElementById('password').value;
+            const resultElement = document.getElementById('ciphertext');
+            
+            if (!ciphertext) {
+                showErrorModal('请输入要解密的文本');
+                return;
+            }
+            
+            try {
+                resultElement.value = '正在解密...';
+                
+                // 创建FormData对象
+                const formData = new FormData();
+                formData.append('text', ciphertext);
+                formData.append('password', password);
+                
+                // 发送请求到后端
+                const response = await fetch('/decrypt', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'error') {
+                    throw new Error(data.message);
+                }
+                
+                resultElement.value = data.result;
+                showNotification('解密成功');
+            } catch (error) {
+                resultElement.value = '';
+                showErrorModal('解密失败: ' + error.message);
+                console.error('解密错误:', error);
+            }
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            const plaintext = document.getElementById('plaintext');
+            const ciphertext = document.getElementById('ciphertext');
+            const password = document.getElementById('password');
+            const togglePassword = document.getElementById('togglePassword');
+            const generatePasswordBtn = document.getElementById('generatePasswordBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const swapBtn = document.getElementById('swapBtn');
+            
+            // 密码明文/密文切换
+            togglePassword.addEventListener('click', () => {
+                const type = password.getAttribute('type') === 'text' ? 'password' : 'text';
+                password.setAttribute('type', type);
+                
+                // 切换图标
+                togglePassword.innerHTML = type === 'text' ? 
+                    '<i class="fa fa-eye"></i>' : 
+                    '<i class="fa fa-eye-slash"></i>';
+            });
+            
+            // 随机生成密码
+            generatePasswordBtn.addEventListener('click', () => {
+                const length = 16;
+                const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=';
+                let password = '';
+                
+                // 确保至少包含每种字符类型各一个
+                password += charset.charAt(Math.floor(Math.random() * 26)); // 小写字母
+                password += charset.charAt(Math.floor(Math.random() * 26) + 26); // 大写字母
+                password += charset.charAt(Math.floor(Math.random() * 10) + 52); // 数字
+                password += charset.charAt(Math.floor(Math.random() * 29) + 62); // 特殊符号
+                
+                // 生成剩余的字符
+                for (let i = 4; i < length; i++) {
+                    password += charset.charAt(Math.floor(Math.random() * charset.length));
+                }
+                
+                // 随机打乱顺序
+                password = password.split('').sort(() => 0.5 - Math.random()).join('');
+                
+                // 设置到密码框
+                document.getElementById('password').value = password;
+                showNotification('已生成强密码');
+            });
+            
+            // 复制结果按钮
+            copyBtn.addEventListener('click', () => {
+                if (ciphertext.value.trim()) {
+                    ciphertext.select();
+                    document.execCommand('copy');
+                    showNotification('结果已复制到剪贴板');
+                } else {
+                    showNotification('没有可复制的内容', true);
+                }
+            });
+            
+            // 清空按钮
+            clearBtn.addEventListener('click', () => {
+                plaintext.value = '';
+                ciphertext.value = '';
+                password.value = '';
+                plaintext.focus();
+                showNotification('内容已清空');
+            });
+            
+            // 交换按钮
+            swapBtn.addEventListener('click', () => {
+                const temp = plaintext.value;
+                plaintext.value = ciphertext.value;
+                ciphertext.value = temp;
+                showNotification('内容已交换');
+            });
+            
+            // 初始焦点
+            plaintext.focus();
+        });
+
+        // 通知和错误弹窗功能
+        function showNotification(message, isError = false) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            const notificationIcon = document.getElementById('notificationIcon');
+            
+            notificationText.textContent = message;
+            notificationIcon.className = isError ? 
+                'fa fa-exclamation-circle text-red-400' : 
+                'fa fa-check-circle text-green-400';
+            
+            notification.classList.remove('translate-y-20', 'opacity-0');
+            notification.classList.add('translate-y-0', 'opacity-100');
+            
+            setTimeout(() => {
+                notification.classList.remove('translate-y-0', 'opacity-100');
+                notification.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        function showErrorModal(message) {
+            const errorModal = document.getElementById('errorModal');
+            const errorModalContent = document.getElementById('errorModalContent');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            errorMessage.textContent = message;
+            errorModal.classList.remove('hidden');
+            
+            setTimeout(() => {
+                errorModalContent.classList.remove('scale-95', 'opacity-0');
+                errorModalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeErrorModal() {
+            const errorModal = document.getElementById('errorModal');
+            const errorModalContent = document.getElementById('errorModalContent');
+            
+            errorModalContent.classList.remove('scale-100', 'opacity-100');
+            errorModalContent.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                errorModal.classList.add('hidden');
+            }, 300);
+        }
+    </script>
+</body>
+</html>

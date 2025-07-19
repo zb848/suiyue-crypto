@@ -1,7 +1,11 @@
 # suiyue-crypto
 随曰(yuē)：开源文本加解密工具 - 随心、随意、随时、随地、随曰。
 
-![随曰(yuē)示例图片](images/SuiYue_GUI.jpg "随曰(yuē)界面图")
+![随曰(yuē)GUI示例图片](images/SuiYue_GUI.jpg "随曰(yuē)GUI界面图")
+
+随曰文本加解密工具网页版测试地址：http://suiyue.67886788.xyz/
+
+![随曰(yuē)HTML示例图片](images/SuiYue_HTML.jpg "随曰(yuē)HTML界面图")
 
 # 随曰文本加解密工具
 
@@ -11,9 +15,15 @@
 ## 项目地址
 [随曰 SuiYue](https://github.com/zb848/suiyue-crypto)  https://github.com/zb848/suiyue-crypto
 
+[随曰 suiyue](https://pypi.org/project/suiyue)  https://pypi.org/project/suiyue
+
 **注意：** 由于网络原因，链接解析可能失败。如果无法访问，请检查链接的合法性，或稍后重试。
 
-[**离线客户端**](https://github.com/zb848/suiyue-crypto/releases)
+[**exe离线客户端**](https://github.com/zb848/suiyue-crypto/releases)
+
+[**apk安卓客户端**](https://github.com/zb848/suiyue-crypto/releases)
+
+[**网页版 http://suiyue.1o1o.xyz/**](http://suiyue.1o1o.xyz/)
 
 ## 功能特点
 - 支持 AES-CTR 和 ChaCha20-Poly1305 加密算法。
@@ -33,6 +43,8 @@ suiyue-crypto/                  # 随曰项目根目录
 |--LICENSE                      # 随曰版权声明
 
 |--images/                      # 随曰图片
+
+|--suiyue-flask/                # 随曰flask网页版项目
 
 
 
@@ -54,10 +66,10 @@ from suiyue import suiyue_encode, suiyue_decode
 plaintext = "随心、随意、随时、随地。"
 password = "随曰"
 
-ciphertext = suiyue_encode(plaintext, password)
+ciphertext = suiyue_encode(plaintext, password)  或   ciphertext = suiyue_encode(plaintext)
 print("加密结果:", ciphertext)
 
-decrypted_text = suiyue_decode(ciphertext, password)
+decrypted_text = suiyue_decode(ciphertext, password) 或   decrypted_text = suiyue_decode(ciphertext)
 print("解密结果:", decrypted_text)
 ```
 
