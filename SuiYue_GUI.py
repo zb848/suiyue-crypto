@@ -181,6 +181,7 @@ soft_readme.grid(row=0, column=1, padx=2, pady=2, sticky="w")
 author_readme = tk.Label(end_frame, text="随波逐流作品 © Github", font=font_style2, bg="#f0f0f0")
 # 使用 sticky="e" 让标签靠右，column=2 占据第二列，由于该列权重为 0，不会自动扩展
 author_readme.grid(row=0, column=2, padx=2, pady=2, sticky="e")
+author_readme.bind("<Button-1>", lambda event: webbrowser.open("https://github.com/zb848/suiyue-crypto"))
 
 # 创建右键菜单
 def create_context_menu(widget):
