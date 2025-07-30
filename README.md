@@ -1,4 +1,4 @@
-# suiyue-crypto ：文本加解密工具
+# suiyue-crypto ：文本加解密工具    V1.1
 
 # 随曰(yuē) - 随心、随意、随时、随地、随曰
 
@@ -8,9 +8,9 @@
 
 ![随曰(yuē)HTML示例图片](images/SuiYue_HTML.jpg "随曰(yuē)HTML界面图")
 
-随曰文本加解密工具安卓版
+随曰文本加解密工具安卓版（离线运行）
 
-![随曰(yuē)APK示例图片](images/SuiYue_APK.jpg "随曰(yuē)APK图")
+![随曰(yuē)APK示例图片](images/suiyue_android.jpg "随曰(yuē)APK图")
 # 随曰文本加解密工具
 
 ## 项目简介
@@ -84,3 +84,7 @@ print("解密结果:", decrypted_text)
 [随曰-私下研究专用许可](https://github.com/zb848/suiyue-crypto?tab=License-1-ov-file#)
 
 ## 随曰 - 心随性起、意随情生、时随运转、地随缘现、言随风散。
+
+#
+
+![随曰(yuē)微信赞赏](images/wechat_donate.png "随曰(yuē)微信赞赏")
